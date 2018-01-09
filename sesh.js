@@ -4,7 +4,7 @@ $(function() {
   var sesh = new Sesh(99, "document.png", "documents-stack.png");
   sesh.initialize();
 
-  /*	Click event for 'Save tab' button.
+  /*  Click event for 'Save tab' button.
       Saves the tab as a bookmark, then closes it (but if it's the
       last tab in the last window, it opens a new tab so you're not
       left without a Chrome window) */
@@ -42,7 +42,7 @@ $(function() {
     });
   });
 
-  /*	Click event for 'Save window' button.
+  /*  Click event for 'Save window' button.
       Pops up a dialog asking to name the session.  If user accepts a
       name, then all the tabs are saved into a bookmark folder, and
       the window is closed (with another window opened if it was the
@@ -52,21 +52,21 @@ $(function() {
     chrome.tabs.getAllInWindow(null,function(tabs) {
       chrome.windows.getCurrent(function(window) {
 
-        //	If the window was opened by opening a saved session, we
-        //	recover  the old name here so we can use it as the default.
+        //  If the window was opened by opening a saved session, we
+        //  recover  the old name here so we can use it as the default.
         var defaultName = chrome.extension.getBackgroundPage().getWindowName(window.id);
 
         var edit = $('<input style="width:250px" id="nameEntry">').val(defaultName == null ? "Saved window" : defaultName);
-        
-        //	Make the window tall enough to fit the dialog box.
+
+        //  Make the window tall enough to fit the dialog box.
         var height = $('body').height();
         if (height < 145) { $('body').height(145); }
-        
-        //	Open the dialog.
+
+        //  Open the dialog.
         $('<div></div>').empty().append($('<label for="nameEntry">Enter a name for this window:</label><div style="height:3px"></div>')).append(edit).dialog(
           {autoOpen: false,
-           closeOnEscape: true, 
-           title: 'Save window', 
+           closeOnEscape: true,
+           title: 'Save window',
            modal: true,
            buttons: {
              Cancel: function() {
@@ -91,8 +91,8 @@ $(function() {
                          'url': tabs[i].url});
                        chrome.tabs.remove(tabs[i].id);
                      }
-                     //	Create a new window if this is the last window
-                     //	(since we're about to close it)
+                     //  Create a new window if this is the last window
+                     //  (since we're about to close it)
                      if (onlyWindow) {
                        chrome.windows.create();
                      }
@@ -115,20 +115,20 @@ $(function() {
 
 });
 
-/*	Creates a new Sesh instance
+/*  Creates a new Sesh instance
     Arguments:
-      seshNameLength - number of characters that session names are 
+      seshNameLength - number of characters that session names are
         truncated to
       singleTabImage - the icon used for a single-tab session
       multiTabImage - the icon used for a multi-tab session
 */
 function Sesh(seshNameLength, singleTabImage, multiTabImage) {
-  /*This is a list, in Unicode escape sequences, of ways that Chrome 
+  /*This is a list, in Unicode escape sequences, of ways that Chrome
     will call the "Other Bookmarks" folder in various languages.
-    Unfortunately, there's way for us to find the folder other than 
+    Unfortunately, there's way for us to find the folder other than
     by name, and there are many different possible names. */
-  this.otherBookmarkFolderNames = 
-    
+  this.otherBookmarkFolderNames =
+
     ["\x4f\x74\x68\x65\x72\x20\x42\x6f\x6f\x6b\x6d\x61\x72\x6b\x73",
     "\u120c\u120b\x20\u12a5\u120d\u1263\u1276\u127d",
     "\u0627\u0644\u0625\u0634\u0627\u0631\u0627\u062a\x20\u0627\u0644\u0623\u062e\u0631\u0649",
@@ -182,13 +182,13 @@ function Sesh(seshNameLength, singleTabImage, multiTabImage) {
     "\u0406\u043d\u0448\u0456\x20\u0437\u0430\u043a\u043b\u0430\u0434\u043a\u0438",
     "\x44\u1ea5\x75\x20\x74\x72\x61\x6e\x67\x20\x6b\x68\xe1\x63",
     "\x44\u1ea5\x75\x20\x74\x72\x61\x6e\x67\x20\x4b\x68\xe1\x63"]
-  this.seshNameLength = seshNameLength; 
+  this.seshNameLength = seshNameLength;
   this.singleTabImage = singleTabImage;
   this.multiTabImage = multiTabImage;
 }
 
-//	Initializes Sesh; the key thing needed for this is the entire set
-//	of Chrome bookmarkNodes.  
+//  Initializes Sesh; the key thing needed for this is the entire set
+//  of Chrome bookmarkNodes.
 Sesh.prototype.initialize = function() {
   var me = this;
   chrome.bookmarks.getTree(
@@ -197,12 +197,12 @@ Sesh.prototype.initialize = function() {
     });
 }
 
-//	Finds the Sesh saved sessions bookmark folder (or creates it if
-//	necessary then stores it in the class.
-//	Then calls Sesh.setBookmarkAndRender to save the bookmark as an
-//	instance variable and render the sessions.
+//  Finds the Sesh saved sessions bookmark folder (or creates it if
+//  necessary then stores it in the class.
+//  Then calls Sesh.setBookmarkAndRender to save the bookmark as an
+//  instance variable and render the sessions.
 Sesh.prototype.findSeshFolder = function(bookmarkNodes) {
-  
+
   // Find the Other Bookmarks folder
   var i;
   var foundOtherBookmarks = false;
@@ -221,15 +221,15 @@ Sesh.prototype.findSeshFolder = function(bookmarkNodes) {
     var otherBookmarksFolder = bookmarkNodes[0].children[i];
     var otherBookmarks = otherBookmarksFolder.children;
 
-    // Search for the Sesh saved sessions folder and return it if found.  
+    // Search for the Sesh saved sessions folder and return it if found.
     for (var i = 0; i < otherBookmarks.length; i++) {
-      if (otherBookmarks[i].children && 
+      if (otherBookmarks[i].children &&
         otherBookmarks[i].title == sesh_folder_name) {
         this.setBookmarkAndRender(otherBookmarks[i]);
         return;
       }
     }
-    
+
     // If Sesh saved sessions folder isn't found, create it and return it.
     var me = this;
     chrome.bookmarks.create(
@@ -243,7 +243,7 @@ Sesh.prototype.findSeshFolder = function(bookmarkNodes) {
   }
 }
 
-/* 	Saves the Sesh saved sessions folder as instance variables
+/*   Saves the Sesh saved sessions folder as instance variables
     and renders the sessions. */
 Sesh.prototype.setBookmarkAndRender = function(bookmarkTreeNode) {
   this.sessionBookmarks = bookmarkTreeNode.children;
@@ -251,7 +251,7 @@ Sesh.prototype.setBookmarkAndRender = function(bookmarkTreeNode) {
   this.renderSessions();
 }
 
-/*	Empties the session list in the popup, then goes through all the
+/*  Empties the session list in the popup, then goes through all the
     sessions in the Sesh saved sessions bookmark folder and renders
     them one by one. */
 Sesh.prototype.renderSessions = function() {
@@ -262,7 +262,7 @@ Sesh.prototype.renderSessions = function() {
   $('#sessions').empty().append(div);
 }
 
-/*	Renders a session based on stored information in a bookmark,
+/*  Renders a session based on stored information in a bookmark,
     with different behavior depending on whether it is a folder
     or a one-tab session. */
 Sesh.prototype.renderSesh = function(seshBookmark) {
@@ -272,27 +272,27 @@ Sesh.prototype.renderSesh = function(seshBookmark) {
     seshname_div = $('<div class="seshname"></div>')
     // Add the favicons for each tab in the session
     for (var i = 0; i < seshBookmark.children.length; i++) {
-      seshname_div.append($('<img src="chrome://favicon/' + 
-        seshBookmark.children[i].url + '" alt="' + 
+      seshname_div.append($('<img src="chrome://favicon/' +
+        seshBookmark.children[i].url + '" alt="' +
         seshBookmark.children[i].url + '" width="16" height="16">'));
     }
     seshname_div.append($('<span style="vertical-align:top"> ' + this.truncateSeshName(seshBookmark.title + '</span>')));
     seshitem_div.append(seshname_div);
 
     // Extract all the pages stored in the session
-    var pages = new Array(seshBookmark.children.length); 
+    var pages = new Array(seshBookmark.children.length);
     for (var i = 0; i < pages.length; i++) {
       pages[i] = seshBookmark.children[i].url;
-    }	
+    }
 
     // When item is clicked, open a new window with all pages opened
     // in tabs, then delete the bookmarks.
     seshitem_div.click(function() {
       var bookmarkTitle = seshBookmark.title;
-      chrome.windows.create({url: pages}, 
+      chrome.windows.create({url: pages},
         function(window) {
           // Associate the session's name to the window so that if
-          // the user saves the window, we can give the old session 
+          // the user saves the window, we can give the old session
           // name as the default name.
           chrome.extension.getBackgroundPage().setWindowName(window.id, bookmarkTitle);
       });
@@ -300,10 +300,10 @@ Sesh.prototype.renderSesh = function(seshBookmark) {
     });
 
   } else { // For a single-tab session
-    seshitem_div.append($('<div class="seshname">' +  
-      '<img src="chrome://favicon/' + seshBookmark.url + 
+    seshitem_div.append($('<div class="seshname">' +
+      '<img src="chrome://favicon/' + seshBookmark.url +
       '" alt="' + seshBookmark.url + '" width="16" height="16">' +
-      ' ' + this.truncateSeshName(seshBookmark.title) + 
+      ' ' + this.truncateSeshName(seshBookmark.title) +
       '</div>'));
 
     // When item is clicked, open the page in a tab and delete the
@@ -314,7 +314,7 @@ Sesh.prototype.renderSesh = function(seshBookmark) {
       chrome.bookmarks.remove(seshBookmark.id,function() {
         me.initialize();
       });
-    });	
+    });
   }
 
   timestamp_div = $('<div class="timestamp">' +
@@ -323,7 +323,7 @@ Sesh.prototype.renderSesh = function(seshBookmark) {
   return seshitem_div.append(timestamp_div);
 }
 
-/*	Creates a short timestamp string by using timeago.js, then modifying it
+/*  Creates a short timestamp string by using timeago.js, then modifying it
     to be a little shorter */
 shorter_timestamp = function(date) {
   timestamp = $.timeago(date);
@@ -334,12 +334,12 @@ shorter_timestamp = function(date) {
   return(timestamp);
 }
 
-/*	Truncate a string to a length defined when creating Sesh object.
+/*  Truncate a string to a length defined when creating Sesh object.
     Used to truncate the name of a saved session. */
 Sesh.prototype.truncateSeshName = function(name) {
   if (name.length < this.seshNameLength) {
     return name;
   } else {
-    return name.substring(0,this.seshNameLength) + "...";	
+    return name.substring(0,this.seshNameLength) + "...";
   }
 }

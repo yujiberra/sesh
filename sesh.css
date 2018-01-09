@@ -1,119 +1,119 @@
 body {
-	font-family: "Verdana", "Arial", sans-serif;
-	font-size: 11px;
-	width:350px;
+  font-family: "Verdana", "Arial", sans-serif;
+  font-size: 11px;
+  width:350px;
 }
 
 h1 {
-	margin-left: 5px;
-	font-size: 18px;
-	line-height: 26px;
-	letter-spacing: 1px;
+  margin-left: 5px;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: 1px;
 }
 
 div, td, th { color: black; }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .link {
-	color: #2857C9;
-	cursor: pointer;
+  color: #2857C9;
+  cursor: pointer;
 }
 
 .link:hover {
-	color: #00248F;
+  color: #00248F;
 }
 
 .link:active {
-	color: #2857C9;
+  color: #2857C9;
 }
 
 #masthead {
-	height: 30px;
-	margin-bottom: 4px;
+  height: 30px;
+  margin-bottom: 4px;
 }
 
 #actions {
-	width: 350px;
-	margin-bottom: 7px;
+  width: 350px;
+  margin-bottom: 7px;
 }
 
 .action {
-	width: 164px;
-	font-size: 11px;
-	line-height: 16px;
-	padding-top: 5px;
-	padding-left: 6px;
-	padding-bottom: 2px;
-	vertical-align: top;
-	display: inline-block;
-	outline: none;
-	cursor: pointer;
-	-webkit-border-radius: .5em; 
-	border-radius: .5em;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  width: 164px;
+  font-size: 11px;
+  line-height: 16px;
+  padding-top: 5px;
+  padding-left: 6px;
+  padding-bottom: 2px;
+  vertical-align: top;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  -webkit-border-radius: .5em;
+  border-radius: .5em;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 
 .blue {
-	border: solid 1px #263657;
-	color: white;
-	background: -webkit-gradient(linear, left top, left bottom, from(#4A7EC9), to(#4372B5));
+  border: solid 1px #263657;
+  color: white;
+  background: -webkit-gradient(linear, left top, left bottom, from(#4A7EC9), to(#4372B5));
 }
 .blue:hover {
-	background: -webkit-gradient(linear, left top, left bottom, from(#4372B5), to(#3A639E));
+  background: -webkit-gradient(linear, left top, left bottom, from(#4372B5), to(#3A639E));
 }
 .blue:active {
-	color: #D8E4FF;
-	background: -webkit-gradient(linear, left top, left bottom, from(#3A639E), to(#4372B5));
+  color: #D8E4FF;
+  background: -webkit-gradient(linear, left top, left bottom, from(#3A639E), to(#4372B5));
 }
- 
+
 
 .seshitem {
-	padding-top: 4px;
-	padding-left: 5px;
-	padding-bottom: 1px;
-	margin-bottom: 7px;
-	outline: none;
-	cursor: pointer;
-	-webkit-border-radius: 2px; 
-	border-radius: 2px;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  padding-top: 4px;
+  padding-left: 5px;
+  padding-bottom: 1px;
+  margin-bottom: 7px;
+  outline: none;
+  cursor: pointer;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 
 .light-blue {
-	border: solid 1px #9EA2A8;
-	background: -webkit-gradient(linear, left top, left bottom, from(#F0F5FF), to(#E3E8F2));
+  border: solid 1px #9EA2A8;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F0F5FF), to(#E3E8F2));
 }
 .light-blue:hover {
-	background: -webkit-gradient(linear, left top, left bottom, from(#DDE5F9), to(#D0D8EB));
+  background: -webkit-gradient(linear, left top, left bottom, from(#DDE5F9), to(#D0D8EB));
 }
 .light-blue:active {
-	background: -webkit-gradient(linear, left top, left bottom, from(#D0D8EB), to(#D0D8EB));
+  background: -webkit-gradient(linear, left top, left bottom, from(#D0D8EB), to(#D0D8EB));
 }
 
 .seshname {
-	width: 228px;
-	margin-right: 10px;
-	font-size: 11px;
-	line-height:16px;
-	display: inline-block;
-	vertical-align: top;
-	overflow:hidden;
+  width: 228px;
+  margin-right: 10px;
+  font-size: 11px;
+  line-height:16px;
+  display: inline-block;
+  vertical-align: top;
+  overflow:hidden;
 }
 
 .timestamp {
-	width: 93px;
-	color: #8A8A8A;
-	line-height:16px;
-	padding-left:10px;
-	vertical-align: top;
-	display: inline-block;
+  width: 93px;
+  color: #8A8A8A;
+  line-height:16px;
+  padding-left:10px;
+  vertical-align: top;
+  display: inline-block;
 }
 
 #sessions {
-	margin-bottom: 9px;
+  margin-bottom: 9px;
 }
