@@ -51,64 +51,65 @@ $(function() {
   $('#savewindow').click(function(event){
     chrome.tabs.getAllInWindow(null,function(tabs) {
       chrome.windows.getCurrent(function(window) {
-
         //  If the window was opened by opening a saved session, we
         //  recover  the old name here so we can use it as the default.
-        var defaultName = chrome.extension.getBackgroundPage().getWindowName(window.id);
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          var defaultName = backgroundPage.getWindowName(window.id);
 
-        var edit = $('<input style="width:250px" id="nameEntry">').val(defaultName == null ? "Saved window" : defaultName);
+          var edit = $('<input style="width:250px" id="nameEntry">').val(defaultName == null ? "Saved window" : defaultName);
 
-        //  Make the window tall enough to fit the dialog box.
-        var height = $('body').height();
-        if (height < 145) { $('body').height(145); }
+          //  Make the window tall enough to fit the dialog box.
+          var height = $('body').height();
+          if (height < 145) { $('body').height(145); }
 
-        //  Open the dialog.
-        $('<div></div>').empty().append($('<label for="nameEntry">Enter a name for this window:</label><div style="height:3px"></div>')).append(edit).dialog(
-          {autoOpen: false,
-           closeOnEscape: true,
-           title: 'Save window',
-           modal: true,
-           buttons: {
-             Cancel: function() {
-               $(this).dialog('destroy');
-             },
+          //  Open the dialog.
+          $('<div></div>').empty().append($('<label for="nameEntry">Enter a name for this window:</label><div style="height:3px"></div>')).append(edit).dialog(
+            {autoOpen: false,
+             closeOnEscape: true,
+             title: 'Save window',
+             modal: true,
+             buttons: {
+               Cancel: function() {
+                 $(this).dialog('destroy');
+               },
 
-             // The Save button
-             'Save': function() {
-               // Create a new bookmark folder...
-               chrome.bookmarks.create({
-                 'parentId': sesh.bookmarkId,
-                 // If name is blank, use "Saved window" as the name
-                 'title': (edit.val() == "") ? "Saved window" : edit.val()},
-                 function(newFolder) {
-                   chrome.windows.getAll(null, function(windows) {
-                     var onlyWindow = (windows.length == 1);
-                     //  Save all the tabs in the new folder
-                     for (var i = 0; i < tabs.length; i++) {
-                       chrome.bookmarks.create({
-                         'parentId': newFolder.id,
-                         'title': tabs[i].title,
-                         'url': tabs[i].url});
-                       chrome.tabs.remove(tabs[i].id);
-                     }
-                     //  Create a new window if this is the last window
-                     //  (since we're about to close it)
-                     if (onlyWindow) {
-                       chrome.windows.create();
-                     }
-                   });
-                 }
-               );
-               $(this).dialog('destroy');
-             }
-         }}).dialog('open');
-        // Make it so pressing enter in the text input submits the
-        // dialog.
-        $('#nameEntry').select().keyup(function(e) {
-          if (e.keyCode == 13) {
-            $('.ui-dialog-buttonset > button:last').trigger('click');
-          }
-         });
+               // The Save button
+               'Save': function() {
+                 // Create a new bookmark folder...
+                 chrome.bookmarks.create({
+                   'parentId': sesh.bookmarkId,
+                   // If name is blank, use "Saved window" as the name
+                   'title': (edit.val() == "") ? "Saved window" : edit.val()},
+                   function(newFolder) {
+                     chrome.windows.getAll(null, function(windows) {
+                       var onlyWindow = (windows.length == 1);
+                       //  Save all the tabs in the new folder
+                       for (var i = 0; i < tabs.length; i++) {
+                         chrome.bookmarks.create({
+                           'parentId': newFolder.id,
+                           'title': tabs[i].title,
+                           'url': tabs[i].url});
+                         chrome.tabs.remove(tabs[i].id);
+                       }
+                       //  Create a new window if this is the last window
+                       //  (since we're about to close it)
+                       if (onlyWindow) {
+                         chrome.windows.create();
+                       }
+                     });
+                   }
+                 );
+                 $(this).dialog('destroy');
+               }
+           }}).dialog('open');
+          // Make it so pressing enter in the text input submits the
+          // dialog.
+          $('#nameEntry').select().keyup(function(e) {
+            if (e.keyCode == 13) {
+              $('.ui-dialog-buttonset > button:last').trigger('click');
+            }
+           });
+        });
       });
     });
   });
