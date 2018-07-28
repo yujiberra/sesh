@@ -295,7 +295,9 @@ Sesh.prototype.renderSesh = function(seshBookmark) {
           // Associate the session's name to the window so that if
           // the user saves the window, we can give the old session
           // name as the default name.
-          chrome.extension.getBackgroundPage().setWindowName(window.id, bookmarkTitle);
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.setWindowName(window.id, bookmarkTitle);
+          });
       });
       chrome.bookmarks.removeTree(seshBookmark.id);
     });
